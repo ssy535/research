@@ -35,3 +35,26 @@ import Currency_ from "../../productmanager/util/currency_"
 ```html
 <Currency v-model="unit.prdStdUprc"/>
 ```
+
+## 3. 전역 필터 사용
+text-value가 number인 경우, 소수점 100 단위 컴마 하는 필터
+마찬가지로 main.js에 선언.
+```javascript
+Vue.filter('toCurrency', function (value) {
+  if (typeof value !== "number") {
+    return value;
+  }
+  var formatter = new Intl.NumberFormat('en-US');
+  return formatter.format(value);
+});
+```
+
+사용) 
+```html
+<el-table-column label="최소금액" align="center" >
+  <template slot-scope="scope">
+    {{scope.row.minAmt | toCurrency}}
+  </template>
+</el-table-column>
+```
+
